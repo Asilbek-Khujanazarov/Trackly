@@ -15,6 +15,17 @@ var builder = WebApplication.CreateBuilder(args);
 //db
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//Cors
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyHeader();
+        })
+})
+
 // Swagger + Bearer JWT
 builder.Services.AddSwaggerGen(c =>
 {
